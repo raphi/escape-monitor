@@ -2,6 +2,8 @@
 
 Escape game client / server tool displaying a timer and hint messages.
 
+![Screenshot](/assets/img/screenshot.png)
+
 ## Requirements
 
 Node & npm
