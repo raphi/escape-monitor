@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8" />
+  <title>Escape Monitoring Server</title>
+  <link rel="stylesheet" href="/assets/css/bootstrap.min.css">
+  <link rel="stylesheet" href="/assets/css/flipclock.css">
+  <link rel="stylesheet" href="/assets/css/escape-monitor.css">
+</head>
+
+<body>
+  <div class="container">
+
+    <div class="row">
+      <div class="col-xs-6 col-xs-offset-3">
+        <div class="escape-clock"></div>
+      </div>
+    </div>
+
+    <button class="timer-btn btn btn-default btn-lg btn-info" action="start" type="button">Start</button>
+    <button class="timer-btn btn btn-default btn-lg btn-info" action="stop" type="button">Pause</button>
+    <button class="timer-btn btn btn-default btn-lg btn-info" action="reset" type="button">Reset</button>
+
+    <div class="hints"></div>
+  </div>
+
+  <div class="input-group input-group-lg">
+    <input type="text" class="hint form-control" placeholder="Hint...">
+    <span class="input-group-btn">
+      <button class="btn btn-default btn-primary btn-lg" type="button">Send</button>
+    </span>
+  </div>
+
+  <script src="https://code.jquery.com/jquery-3.1.1.slim.min.js"></script>
+  <script src="/assets/js/flipclock.min.js"></script>
+  <script src="/socket.io/socket.io.js"></script>
+
+  <script>
+    var socket = io();
+    var clock = $('.escape-clock').FlipClock({ autoStart: false });
+
+    $('.timer-btn').on('click', function() {
+      socket.emit('timer', $(this).attr('action'));
+    });
+
+    $('.input-group').keydown(function(event){
+      var keyCode = (event.keyCode ? event.keyCode : event.which);
+      if (keyCode == 13)
+        $('.input-group .btn').trigger('click');
+    });
+
+    $('.input-group .btn').on('click', function() {
+      var message = $('.hint').val();
+
+      if (message != '') {
+        socket.emit('message', message);
+
+        var alert = `
+          <div class="alert alert-info alert-dismissible show" role="alert">
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+            ${message}
+          </div>`;
+
+        // $('.hints').append(alert);
+
+        document.getElementsByClassName('hint')[0].value = '';
+      }
+
+      return false;
+    });
+
+    socket.on('timer', function(message) {
+      if (message == 'start')
+        clock.start();
+      else if (message == 'stop')
+        clock.stop();
+      else if (message == 'reset')
+        clock.reset();
+    });
+  </script>
+</body>
+</html>

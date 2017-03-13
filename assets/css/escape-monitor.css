@@ -1,0 +1,4 @@
+.input-group { padding: 5px; position: fixed; bottom: 0; width: 100%; }
+.container { text-align: center; margin-top: 50vh; transform: translateY(-50%); }
+.escape-clock { padding-left: 37px; margin-bottom: 50px; }
+.hint.alert { display: none; }

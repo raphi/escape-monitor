@@ -1,0 +1,21 @@
+{
+  "name": "escape-monitor",
+  "version": "1.0.0",
+  "description": "Escape game monitoring tool client/server displaying time counter, hints, sound alarm, etc.",
+  "main": "app.js",
+  "dependencies": {
+    "socket.io": "^1.7.3"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "escape",
+    "game",
+    "monitoring",
+    "tool"
+  ],
+  "author": "Raphael Daguenet",
+  "license": "ISC"
+}
